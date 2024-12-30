@@ -1,7 +1,8 @@
 import userModels from "../models/user.models.js";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
+import { access } from "fs";
 import jwt from "jsonwebtoken";
-import cookieparser from "cookieparser";
+// import cookieparser from "cookieparser";
 
 const generateAccessToken = (user) => {
   return jwt.sign({ id: user._id, email: user.email }, process.env.SECRET_KEY, {
@@ -27,19 +28,17 @@ export const createUser = async (req, res) => {
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
     }
-
+    
     const user = await userModels.create({
-      name,
-      email,
-      password: hashPassword,
-      isAdmin,
+        name,
+        email,
+        password: hashPassword,
+        isAdmin,
+        
     });
-    res
-      .status(201)
-      .json({
+    res.status(201).json({
         massage: "User created successfully",
-        user,
-        token: AccesesToken(user),
+        user
       });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -105,7 +104,7 @@ export const refreshToken = async (req, res) => {
 
 
 
-
+// middlewere 
 export const authenticateUser = async (req, res, next) => {
     const token = req.headers["authorization"];
     if (!token) return res.status(404).json({ message: "no token found" });
