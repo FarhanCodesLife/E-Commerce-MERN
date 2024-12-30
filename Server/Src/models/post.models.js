@@ -13,18 +13,18 @@ const postSchema = new mongoose.Schema({
         type: Number,
         required: true,
       },
-      category: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Category',
-        required: true,
-      },
+      // category: {
+      //   type: mongoose.Schema.Types.ObjectId,
+      //   ref: 'Category',
+      //   required: true,
+      // },
       stock: {
         type: Number,
         default: 0,
       },
       images: [
         {
-          url: { type: String, required: true },
+          url: { type: String,  },
           alt: { type: String },
         },
       ],
@@ -43,7 +43,7 @@ const postSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
       },
-    user: {
+      autorId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
     },

@@ -3,7 +3,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
 import connectDB from "./Src/db/index.js";
-import router from "./Src/routes/user.route.js";
+import userRouter from "./Src/routes/user.route.js";
+import postRouter from "./Src/routes/post.route.js";
 import cookieParser from "cookie-parser";
 const app = express()
 const port = process.env.PORT || 5000
@@ -11,7 +12,8 @@ app.use(cors())
 app.use(cookieParser())
 app.use(express.json())
 
-app.use("/api/user",router)
+app.use("/api/user",userRouter)
+app.use("/api/post",postRouter)
 
 
 
