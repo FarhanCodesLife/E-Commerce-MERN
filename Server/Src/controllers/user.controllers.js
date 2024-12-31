@@ -37,7 +37,7 @@ export const createUser = async (req, res) => {
         
     });
     res.status(201).json({
-        massage: "User created successfully",
+      message: "User created successfully",
         user
       });
   } catch (error) {
@@ -65,7 +65,7 @@ export const logInUser = async (req, res) => {
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      secure: true, // Set to true in production
+      secure: process.env.NODE_ENV === "production", // Ensure secure is true only in production
       sameSite: "strict",
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
