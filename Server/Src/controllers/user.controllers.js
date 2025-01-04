@@ -104,7 +104,6 @@ export const refreshToken = async (req, res) => {
 
 
 
-// middlewere 
 
 
 export const logoutUser = async (req, res) => {

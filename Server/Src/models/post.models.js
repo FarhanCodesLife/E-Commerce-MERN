@@ -3,15 +3,15 @@ import mongoose from "mongoose";
 const postSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true,
+        // required: true,
       },
       description: {
         type: String,
-        required: true,
+        // required: true,
       },
       price: {
         type: Number,
-        required: true,
+        // required: true,
       },
       // category: {
       //   type: mongoose.Schema.Types.ObjectId,
@@ -22,12 +22,15 @@ const postSchema = new mongoose.Schema({
         type: Number,
         default: 0,
       },
-      images: [
-        {
-          url: { type: String,  },
-          alt: { type: String },
-        },
-      ],
+      images:{
+        type:String
+      },
+      //  [
+      //   {
+      //     url: { type: String,  },
+      //     alt: { type: String },
+      //   },
+      // ],
       ratings: [
         {
           user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
