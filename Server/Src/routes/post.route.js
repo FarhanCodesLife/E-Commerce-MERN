@@ -1,6 +1,6 @@
 import express from "express";
 import { createPost, getAllPosts, getPostById, deletePost, editPost } from "../controllers/post.controllers.js";
-import { authenticateUser } from "../controllers/user.controllers.js";
+import { authenticateUser } from "../middlewere/auth.middlewere.js";
 
 const router = express.Router();
 
