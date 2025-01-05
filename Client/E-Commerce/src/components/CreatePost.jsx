@@ -8,9 +8,9 @@ const CreatePost = () => {
     price: "",
     category: "",
     stock: "",
-    // images: "",
     autorId: "",
   });
+  const [image, setImage] = useState(null); // For storing the selected image
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -23,16 +23,36 @@ const CreatePost = () => {
     });
   };
 
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]); // Store the selected file
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setErrorMessage("");
     setSuccessMessage("");
 
+    const data = new FormData(); // Using FormData for file and text data
+    data.append("name", formData.name);
+    data.append("description", formData.description);
+    data.append("price", formData.price);
+    data.append("category", formData.category);
+    data.append("stock", formData.stock);
+    data.append("autorId", formData.autorId);
+    if (image) {
+      data.append("image", image); // Append the image file
+    }
+
     try {
       const response = await axios.post(
         "http://localhost:5000/api/post/create",
-        formData
+        data,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data", // Required for file uploads
+          },
+        }
       );
       setSuccessMessage(response.data.message);
       setFormData({
@@ -41,9 +61,9 @@ const CreatePost = () => {
         price: "",
         category: "",
         stock: "",
-        // images: "",
         autorId: "",
       });
+      setImage(null); // Reset the image input
     } catch (error) {
       setErrorMessage(error.response?.data?.message || "Error creating post.");
     } finally {
@@ -120,16 +140,13 @@ const CreatePost = () => {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium">Images</label>
-          {/* <input
-            type="text"
-            name="images"
-            value={formData.images}
-            onChange={handleChange}
-            required
+          <label className="block text-sm font-medium">Image</label>
+          <input
+            type="file"
+            name="image"
+            onChange={handleImageChange}
             className="w-full px-4 py-2 border rounded-md"
-            placeholder="Image URL"
-          /> */}
+          />
         </div>
         <div>
           <label className="block text-sm font-medium">Author ID</label>
