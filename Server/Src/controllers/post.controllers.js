@@ -51,18 +51,33 @@ const uploadImageToCloudinary = async (localpath) => {
 
 // Get all posts
 export const getAllPosts = async (req, res) => {
-    const page = req.query.page || 1;
-    const limit = req.query.limit || 3;
+    const page = parseInt(req.query.page) || 1; // Ensuring page is an integer
+    const limit = parseInt(req.query.limit) || 3; // Ensuring limit is an integer
   
     const skip = (page - 1) * limit;
 
     try {
+        // Fetch the posts with pagination
         const posts = await postModels.find().skip(skip).limit(limit);
-        res.json(posts);
+
+        // Count the total number of posts in the database (for pagination purposes)
+        const totalPosts = await postModels.countDocuments();
+
+        // Calculate the total number of pages
+        const totalPages = Math.ceil(totalPosts / limit);
+
+        // Send posts along with pagination info
+        res.json({
+            posts,
+            totalPages,
+            currentPage: page,
+            totalPosts
+        });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
+
 
 // Get post by ID
 export const getPostById = async (req, res) => {
