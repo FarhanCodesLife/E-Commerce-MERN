@@ -8,7 +8,7 @@ const router = express.Router();
 router.post("/create",upload.single("image"), createPost);
 // router.post("/image",upload.single("image"), uploadImage);
 router.get("/all", getAllPosts);
-router.get("/:id", getPostById);
+router.get("/:id",authenticateUser, getPostById);
 router.delete("/:id", authenticateUser, deletePost);
 router.put("/:id", authenticateUser, editPost);
 

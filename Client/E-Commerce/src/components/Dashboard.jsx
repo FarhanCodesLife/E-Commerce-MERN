@@ -29,6 +29,18 @@ const Dashboard = () => {
     fetchUsers();
   }, []);
 
+
+  const logout = async () => {
+    try {
+      const responce = await axios.post("http://localhost:5000/api/user/logout");
+      console.log(responce.data);
+      
+      // window.location.href = "/login";
+    } catch (err) {
+      console.error("Failed to logout:", err.message);
+    }
+  };
+
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
   const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
@@ -51,6 +63,13 @@ const Dashboard = () => {
             {error}
           </div>
         )}
+
+        <button
+          onClick={logout}
+          className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+        >
+          Logout
+        </button>
 
         <ul className="space-y-4">
           {currentUsers.length === 0 ? (

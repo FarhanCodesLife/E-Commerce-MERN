@@ -51,8 +51,13 @@ const uploadImageToCloudinary = async (localpath) => {
 
 // Get all posts
 export const getAllPosts = async (req, res) => {
+    const page = req.query.page || 1;
+    const limit = req.query.limit || 3;
+  
+    const skip = (page - 1) * limit;
+
     try {
-        const posts = await postModels.find();
+        const posts = await postModels.find().skip(skip).limit(limit);
         res.json(posts);
     } catch (error) {
         res.status(500).json({ message: error.message });
